@@ -25,6 +25,20 @@ class Piece
     @curr_pos = initial_pos
   end
 
+  def valid_move?(pos)
+    #write throwexception to see if we did not implement valid move for each class
+    #uses poss_move to check whether a piece can move to that location
+    #check)
+  end
+
+  def poss_move(curr_pos)
+    #returns every valid move that a piece can make without checking for it
+    #
+  end
+
+  def move_piece(end_pos)
+
+  end
 end
 
 class Chess
