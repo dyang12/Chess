@@ -68,6 +68,7 @@ class Piece
 
   def move_piece(end_pos)
     curr_pos = end_pos
+    #remove previous residing piece if killed
   end
 
   def remove_allies(board, poss_moves)
