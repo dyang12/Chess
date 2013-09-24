@@ -5,7 +5,7 @@ module SlidingPieces
 end
 
 class Queen < Piece
-  attr_reader :display
+  attr_reader :display_type
 
   def initialize(color, initial_pos)
     super(color,initial_pos)
@@ -16,6 +16,8 @@ end
 
 
 class Rook < Piece
+  attr_reader :display_type
+
   def initialize(color, initial_pos)
     super(color,initial_pos)
     @display_type = "R"
@@ -24,6 +26,8 @@ end
 
 
 class Bishop < Piece
+  attr_reader :display_type
+
   def initialize(color, initial_pos)
     super(color,initial_pos)
     @display_type = "B"

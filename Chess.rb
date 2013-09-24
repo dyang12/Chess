@@ -12,8 +12,9 @@ class Board
   end
 
   def display_board
-    board.each do |row|
-      row_string = ""
+    puts "  0 1 2 3 4 5 6 7"
+    board.each_with_index do |row, i|
+      row_string = "#{i} "
       row.each do |el|
         if el.nil?
           row_string += "_ "
@@ -67,6 +68,12 @@ class Piece
 
   def move_piece(end_pos)
     curr_pos = end_pos
+  end
+
+  def remove_allies(board, poss_moves)
+    poss_moves.reject! do |pos|
+      !board[pos].nil? && board[pos].color == color
+    end
   end
 end
 

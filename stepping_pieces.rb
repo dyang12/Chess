@@ -5,7 +5,7 @@ module SteppingPieces
 end
 
 class King < Piece
-  attr_reader :display
+  attr_reader :display_type
 
   def initialize(color, initial_pos)
     super(color, initial_pos)
@@ -21,31 +21,26 @@ class King < Piece
         poss_moves << pos unless board.out_of_bounds?(pos)
       end
     end
-    poss_moves.reject! do |pos|
-      !board[pos].nil? && board[pos].color == color
-    end
-    poss_moves
+    remove_allies(board, poss_moves)
   end
-
 end
 
 class Knight < Piece
-  attr_reader :display
+  attr_reader :display_type
 
   def initialize(color, initial_pos)
     super(color, initial_pos)
     @display_type = "N"
   end
 
-  def valid_move?(pos)
-    #write throwexception to see if we did not implement valid move for each class
-    #uses poss_move to check whether a piece can move to that location
-    #check)
-  end
+  def poss_moves(board)
+    deltas = [[1,2],[1,-2],[2,1],[2,-1],[-1,-2],[-1,2],[-2,-1],[-2,1]]
 
-  def poss_move(curr_pos)
-    #returns every valid move that a piece can make without checking for it
-    #
+    poss_moves = deltas.map do |(dx, dy)|
+      [curr_pos[0]+dx, curr_pos[1]+dy]
+    end
+    poss_moves.reject! {|pos| board.out_of_bounds?(pos)}
+    p poss_moves
+    remove_allies(board, poss_moves)
   end
-
 end
