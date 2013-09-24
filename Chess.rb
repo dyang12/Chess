@@ -3,8 +3,8 @@ class Board
 
   def initialize
     create_board
-    set_pieces(:white)
-    set_pieces(:black)
+    # set_pieces(:white)
+    # set_pieces(:black)
   end
 
   def create_board
@@ -13,6 +13,21 @@ class Board
 
   def set_pieces(color)
     #initializes and set all the pieces of a specific color
+  end
+
+  def []=(pos, piece)
+    row, col = pos
+    @board[row][col] = piece
+  end
+
+  def [](pos)
+    row, col = pos
+    @board[row][col]
+  end
+
+  def out_of_bounds?(pos)
+    return true if pos[0] < 0 || pos[0] > 7 || pos[1] < 0 || pos[1] > 7
+    false
   end
 end
 
@@ -37,7 +52,7 @@ class Piece
   end
 
   def move_piece(end_pos)
-
+    curr_pos = end_pos
   end
 end
 
