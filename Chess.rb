@@ -11,6 +11,20 @@ class Board
     @board = Array.new(8) { Array.new(8) }
   end
 
+  def display_board
+    board.each do |row|
+      row_string = ""
+      row.each do |el|
+        if el.nil?
+          row_string += "_ "
+        else
+          row_string += "#{el.display_type} "
+        end
+      end
+      puts row_string.chomp
+    end
+  end
+
   def set_pieces(color)
     #initializes and set all the pieces of a specific color
   end
