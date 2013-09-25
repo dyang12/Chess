@@ -78,7 +78,6 @@ class Pawn < Piece
     return true unless board[pos].nil? || board[pos].color == color
     false
   end
-
 end
 
 

@@ -33,7 +33,6 @@ class Board
   end
 
   def set_pieces
-    #initializes and set all the pieces of a specific color
     8.times do |col|
       b_pawn = Pawn.new(:black, [1, col])
       board[1][col] = b_pawn
@@ -87,6 +86,57 @@ class Board
     board[7][4] = w_king
   end
 
+  def valid_moves(pos)
+    #clone the board and make suggested move
+    #cloned_board.checked?
+    #if true, set board = cloned_board
+
+  end
+
+  def dup
+    #clone board
+  end
+
+  def checked?(color)
+    king_pos = find_king_pos(color)
+    opposing_pieces = find_opposing_pieces(color)
+
+    opposing_pieces.each do |piece|
+      return true if piece.poss_moves(self).include?(king_pos)
+    end
+
+    return false
+  end
+
+  def find_king_pos(color)
+    (0...8).each do |row|
+      (0...8).each do |col|
+        if board[row][col].is_a?(King) && board[row][col].color == color
+          return [row, col]
+        end
+      end
+    end
+  end
+
+  def find_opposing_pieces(color)
+    opposing_pieces = []
+    (0...8).each do |row|
+      (0...8).each do |col|
+        unless board[row][col].nil? || board[row][col].color == color
+          opposing_pieces << board[row][col]
+        end
+      end
+    end
+
+    opposing_pieces
+  end
+
+
+  def move_piece(end_pos)
+    curr_pos = end_pos
+    #remove previous residing piece if killed
+  end
+
   def []=(pos, piece)
     row, col = pos
     @board[row][col] = piece
@@ -112,20 +162,9 @@ class Piece
     @curr_pos = initial_pos
   end
 
-  def valid_move?(pos)
-    #write throwexception to see if we did not implement valid move for each class
-    #uses poss_move to check whether a piece can move to that location
-    #check)
-  end
-
   def poss_move(curr_pos)
     #returns every valid move that a piece can make without checking for it
     #
-  end
-
-  def move_piece(end_pos)
-    curr_pos = end_pos
-    #remove previous residing piece if killed
   end
 
   def remove_allies(board, poss_moves)

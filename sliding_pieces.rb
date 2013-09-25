@@ -26,11 +26,6 @@ module SlidingPieces
     end
     single_dir_moves
   end
-
-end
-
-module DiagMoves
-
 end
 
 class Queen < Piece
@@ -42,7 +37,6 @@ class Queen < Piece
     @display_type = "Q"
     @deltas = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]]
   end
-
 end
 
 
