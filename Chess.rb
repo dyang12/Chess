@@ -75,6 +75,12 @@ class Piece
     poss_moves.reject! do |pos|
       !board[pos].nil? && board[pos].color == color
     end
+    poss_moves
+  end
+
+  def add_positions(delta)
+    dx, dy = delta
+    [curr_pos[0]+dx, curr_pos[1]+dy]
   end
 end
 
