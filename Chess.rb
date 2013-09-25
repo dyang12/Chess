@@ -1,7 +1,9 @@
 require 'colorize'
+require './stepping_pieces.rb'
+require './sliding_pieces.rb'
 
 class Board
-  attr_reader :board
+  attr_accessor :board
 
   def initialize
     create_board
@@ -13,17 +15,17 @@ class Board
   end
 
   def display_board
-    puts "  0 1 2 3 4 5 6 7"
+    puts "   0 1 2 3 4 5 6 7"
     board.each_with_index do |row, i|
       row_string = "#{i} "
       row.each do |el|
         if el.nil?
-          row_string += "_ "
+          row_string += "|_"
         else
-          row_string += "#{render_piece(el)} "
+          row_string += "|#{render_piece(el).underline}"
         end
       end
-      puts row_string.chomp
+      puts row_string + "|"
     end
   end
 
@@ -94,7 +96,26 @@ class Board
   end
 
   def dup
-    #clone board
+    new_board = Board.new
+    new_board.board = dup_board
+    return new_board
+  end
+
+  def dup_board
+    dup_board = []
+    board.each do |row|
+      dup_row = []
+      row.each do |el|
+        if el.nil?
+          dup_row << nil
+        else
+          dup_piece = el
+          dup_row << dup_piece
+        end
+      end
+      dup_board << dup_row
+    end
+    dup_board
   end
 
   def checked?(color)
