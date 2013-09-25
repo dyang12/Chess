@@ -9,6 +9,7 @@ module SteppingPiece
     remove_allies(board, poss_moves)
   end
 
+  private
   def remove_allies(board, poss_moves)
     poss_moves.reject! do |pos|
       !board[pos].nil? && board[pos].color == color
@@ -57,8 +58,10 @@ class Pawn < Piece
     poss_moves.concat(add_forward_moves(board, num))
   end
 
+  private
   def add_diag_moves(board, num)
     diag_moves = []
+
     (curr_pos[1]-1..curr_pos[1]+1).each do |col|
       next if col == 0
       pos = [curr_pos[0] + num, col]
@@ -66,12 +69,14 @@ class Pawn < Piece
         diag_moves << pos if has_enemy?(board,pos)
       end
     end
+
     diag_moves
   end
 
   def add_forward_moves(board, num)
     forward_moves = []
     pos = [curr_pos[0]+num, curr_pos[1]]
+
     if !board.out_of_bounds?(pos) && board[pos].nil?
       forward_moves << pos
       if @first_move
@@ -79,6 +84,7 @@ class Pawn < Piece
         forward_moves << new_pos if board[new_pos].nil?
       end
     end
+
     forward_moves
   end
 
