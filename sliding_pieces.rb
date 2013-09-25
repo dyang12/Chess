@@ -1,4 +1,4 @@
-require './chess.rb'
+require './Chess.rb'
 
 module SlidingPieces
   def poss_moves(board)

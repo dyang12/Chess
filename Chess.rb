@@ -1,6 +1,4 @@
 require 'colorize'
-require './stepping_pieces.rb'
-require './sliding_pieces.rb'
 
 class Board
   attr_accessor :board
@@ -88,11 +86,18 @@ class Board
     board[7][4] = w_king
   end
 
-  def valid_moves(pos)
-    #clone the board and make suggested move
-    #cloned_board.checked?
-    #if true, set board = cloned_board
-
+  def moves(start_pos, end_pos)
+    moving_obj = self[start_pos]
+    poss_moves = moving_obj.poss_moves(self)
+    valid_moves = moving_obj.valid_moves(self,poss_moves)
+    if valid_moves.include?(end_pos)
+      self[start_pos] = nil
+      moving_obj.curr_pos = end_pos
+      moving_obj.first_move = false if moving_obj.is_a?(Pawn)
+      self[end_pos] = moving_obj
+    else
+      raise ArgumentError.new "Invalid Move"
+    end
   end
 
   def dup
@@ -121,7 +126,6 @@ class Board
   def checked?(color)
     king_pos = find_king_pos(color)
     opposing_pieces = find_opposing_pieces(color)
-
     opposing_pieces.each do |piece|
       return true if piece.poss_moves(self).include?(king_pos)
     end
@@ -148,7 +152,6 @@ class Board
         end
       end
     end
-
     opposing_pieces
   end
 
@@ -183,16 +186,25 @@ class Piece
     @curr_pos = initial_pos
   end
 
-  def poss_move(curr_pos)
-    #returns every valid move that a piece can make without checking for it
-    #
+  def valid_moves(board, poss_moves)
+    valid_moves = []
+    poss_moves = poss_moves(board)
+    poss_moves.each do |pos|
+      valid_moves << pos unless move_into_check?(board, pos)
+    end
+    valid_moves
   end
 
-  def remove_allies(board, poss_moves)
-    poss_moves.reject! do |pos|
-      !board[pos].nil? && board[pos].color == color
-    end
-    poss_moves
+  def move_into_check?(board, pos)
+    temp_board = board.dup
+    temp_board[curr_pos] = nil
+    curr_pos = pos
+    temp_board[curr_pos] = self
+    return temp_board.checked?(color)
+  end
+
+  def poss_moves(curr_pos)
+
   end
 
   def add_positions(delta)

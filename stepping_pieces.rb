@@ -1,4 +1,4 @@
-require './chess.rb'
+require './Chess.rb'
 
 module SteppingPiece
   def poss_moves(board)
@@ -7,6 +7,13 @@ module SteppingPiece
     end
     poss_moves.reject! {|pos| board.out_of_bounds?(pos)}
     remove_allies(board, poss_moves)
+  end
+
+  def remove_allies(board, poss_moves)
+    poss_moves.reject! do |pos|
+      !board[pos].nil? && board[pos].color == color
+    end
+    poss_moves
   end
 end
 
@@ -34,6 +41,7 @@ end
 
 
 class Pawn < Piece
+  attr_accessor :first_move
   attr_reader :display_type
 
   def initialize(color, initial_pos)
