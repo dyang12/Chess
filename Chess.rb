@@ -1,10 +1,11 @@
+require 'colorize'
+
 class Board
   attr_reader :board
 
   def initialize
     create_board
-    # set_pieces(:white)
-    # set_pieces(:black)
+    set_pieces
   end
 
   def create_board
@@ -19,15 +20,71 @@ class Board
         if el.nil?
           row_string += "_ "
         else
-          row_string += "#{el.display_type} "
+          row_string += "#{render_piece(el)} "
         end
       end
       puts row_string.chomp
     end
   end
 
-  def set_pieces(color)
+  def render_piece(piece)
+      return piece.display_type.white if piece.color == :white
+      return piece.display_type.red
+  end
+
+  def set_pieces
     #initializes and set all the pieces of a specific color
+    8.times do |col|
+      b_pawn = Pawn.new(:black, [1, col])
+      board[1][col] = b_pawn
+    end
+
+    [0, 7].each do |col|
+      b_rook = Rook.new(:black, [0, col])
+      board[0][col] = b_rook
+    end
+
+    [1, 6].each do |col|
+      b_knight = Knight.new(:black, [0, col])
+      board[0][col] = b_knight
+    end
+
+    [2, 5].each do |col|
+      b_bishop = Bishop.new(:black, [0, col])
+      board[0][col] = b_bishop
+    end
+
+    b_queen = Queen.new(:black, [0,3])
+    board[0][3] = b_queen
+
+    b_king = King.new(:black, [0, 4])
+    board[0][4] = b_king
+
+    8.times do |col|
+      w_pawn = Pawn.new(:white, [6, col])
+      board[6][col] = w_pawn
+    end
+
+    [0, 7].each do |col|
+      w_rook = Rook.new(:white, [7, col])
+      board[7][col] = w_rook
+    end
+
+    [1, 6].each do |col|
+      w_knight = Knight.new(:white, [7, col])
+      board[7][col] = w_knight
+    end
+
+    [2, 5].each do |col|
+      w_bishop = Bishop.new(:white, [7, col])
+      board[7][col] = w_bishop
+    end
+
+    w_queen = Queen.new(:white, [7,3])
+    board[7][3] = w_queen
+
+    w_king = King.new(:white, [7, 4])
+    board[7][4] = w_king
   end
 
   def []=(pos, piece)

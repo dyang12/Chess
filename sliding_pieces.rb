@@ -9,6 +9,7 @@ module SlidingPieces
     poss_moves
   end
 
+  #REFACTOR REFACTOR REFACTOR
   def single_dir_moves(board, delta)
     single_dir_moves = []
     new_pos = add_positions(delta)
