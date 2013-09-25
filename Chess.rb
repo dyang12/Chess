@@ -86,7 +86,7 @@ class Board
     board[7][4] = w_king
   end
 
-  def moves(start_pos, end_pos)
+  def move(start_pos, end_pos)
     moving_obj = self[start_pos]
     poss_moves = moving_obj.poss_moves(self)
     valid_moves = moving_obj.valid_moves(self,poss_moves)
@@ -125,12 +125,30 @@ class Board
 
   def checked?(color)
     king_pos = find_king_pos(color)
-    opposing_pieces = find_opposing_pieces(color)
-    opposing_pieces.each do |piece|
-      return true if piece.poss_moves(self).include?(king_pos)
+    opposing_pieces = find_all_pieces(color).select do |piece|
+      piece.color != color
     end
 
+    opposing_pieces.each do |enemy|
+      return true if enemy.poss_moves(self).include?(king_pos)
+    end
     return false
+  end
+
+  def checkmate?(color)
+    if checked?(color)
+      ally_pieces = find_all_pieces(color).select do |piece|
+        piece.color == color
+      end
+      ally_pieces.each do |ally|
+        poss_moves = ally.poss_moves(self)
+        valid_moves = ally.valid_moves(self,poss_moves)
+        return false if valid_moves.length > 0
+      end
+    else
+      return false
+    end
+    return true
   end
 
   def find_king_pos(color)
@@ -143,22 +161,16 @@ class Board
     end
   end
 
-  def find_opposing_pieces(color)
-    opposing_pieces = []
+  def find_all_pieces(color)
+    all_pieces = []
     (0...8).each do |row|
       (0...8).each do |col|
-        unless board[row][col].nil? || board[row][col].color == color
-          opposing_pieces << board[row][col]
+        unless board[row][col].nil?
+          all_pieces << board[row][col]
         end
       end
     end
-    opposing_pieces
-  end
-
-
-  def move_piece(end_pos)
-    curr_pos = end_pos
-    #remove previous residing piece if killed
+    all_pieces
   end
 
   def []=(pos, piece)
@@ -178,6 +190,7 @@ class Board
 end
 
 class Piece
+  #refactor valid moves array into instance variable
   attr_accessor :curr_pos
   attr_reader :color
 

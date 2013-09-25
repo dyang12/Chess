@@ -76,7 +76,7 @@ class Pawn < Piece
       forward_moves << pos
       if @first_move
         new_pos = [pos[0]+num, pos[1]]
-        forward_moves << new_pos if board[pos].nil?
+        forward_moves << new_pos if board[new_pos].nil?
       end
     end
     forward_moves
