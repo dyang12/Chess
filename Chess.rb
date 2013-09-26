@@ -31,7 +31,7 @@ class Board
     moving_obj = self[start_pos]
 
     if moving_obj.color != color
-      raise ArgumentError "That's not your piece"
+      raise ArgumentError.new "That's not your piece"
     else
       poss_moves = moving_obj.poss_moves(self)
       valid_moves = moving_obj.valid_moves(self,poss_moves)
@@ -217,7 +217,7 @@ class Piece
       valid_moves << pos unless move_into_check?(board, pos)
     end
 
-    valid_moves
+    p valid_moves
   end
 
   def poss_moves(curr_pos)
@@ -262,21 +262,31 @@ class Chess
         end
         b.display_board
 
-        start_pos, end_pos = player1.prompt_for_move
-        b.move(start_pos, end_pos, player1.color)
+        begin
+          start_pos, end_pos = player1.prompt_for_move
+          b.move(start_pos, end_pos, player1.color)
+        rescue ArgumentError => e
+          puts "#{e.message}"
+          retry
+        end
       end
 
-      if b.checkmate?(player1.color)
+      if b.checkmate?(player2.color)
         puts "Player 2 Wins!"
         quit
       else
-        if b.checked?(player1.color)
+        if b.checked?(player2.color)
           puts "Player1, you are in check."
         end
         b.display_board
 
-        start_pos, end_pos = player2.prompt_for_move
-        b.move(start_pos, end_pos, player2.color)
+        begin
+          start_pos, end_pos = player2.prompt_for_move
+          b.move(start_pos, end_pos, player2.color)
+        rescue ArgumentError => e
+          puts "#{e.message}"
+          retry
+        end
       end
     end
   end

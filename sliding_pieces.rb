@@ -1,4 +1,37 @@
 require './Chess.rb'
+#
+# module SlidingPieces
+#   def poss_moves(board)
+#     poss_moves = []
+#     @deltas.each do |delta|
+#       new_pos = add_positions(delta)
+#       temp_piece = Piece.new(color,new_pos)
+#       poss_moves.concat(single_dir_moves(board, temp_piece, delta))
+#     end
+#     poss_moves
+#   end
+#
+#   private
+#   #REFACTOR REFACTOR REFACTOR
+#   def single_dir_moves(board, temp_piece, delta)
+#     p temp_piece.curr_pos
+#     if board.out_of_bounds?(temp_piece.curr_pos)
+#       return []
+#     else
+#       unless board[temp_piece.curr_pos].nil?
+#         if board[temp_piece.curr_pos].color == color
+#           return []
+#         end
+#       end
+#     end
+#
+#     moves = []
+#     temp_piece = Piece.new(color,temp_piece.add_positions(delta))
+#     moves.concat(single_dir_moves(board, temp_piece, delta))
+#     moves.concat([temp_piece.curr_pos])
+#     moves
+#   end
+# end
 
 module SlidingPieces
   def poss_moves(board)
@@ -9,6 +42,7 @@ module SlidingPieces
     poss_moves
   end
 
+  private
   #REFACTOR REFACTOR REFACTOR
   def single_dir_moves(board, delta)
     single_dir_moves = []
